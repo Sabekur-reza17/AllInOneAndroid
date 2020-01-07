@@ -13,12 +13,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.sabekur2017.allinoneandroid.adapter.SectionedGridRecyclerViewAdapter;
+import com.sabekur2017.allinoneandroid.adapter.SimpleAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private Toolbar toolbar;
+    private RecyclerView mRecyclerView;
+    private SimpleAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +35,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initToolbar();
         initNavigationMenu();
+        //Your RecyclerView
+        mRecyclerView = (RecyclerView)findViewById(R.id.list);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,4));
+
+        //Your RecyclerView.Adapter
+        mAdapter = new SimpleAdapter(this);
+
+        //This is the code to provide a sectioned grid
+        List<SectionedGridRecyclerViewAdapter.Section> sections =
+                new ArrayList<SectionedGridRecyclerViewAdapter.Section>();
+
+        //Sections
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(0,"Section 1"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(5,"Section 2"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(12,"Section 3"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(14,"Section 4"));
+        sections.add(new SectionedGridRecyclerViewAdapter.Section(20,"Section 5"));
+
+        //Add your adapter to the sectionAdapter
+        SectionedGridRecyclerViewAdapter.Section[] dummy = new SectionedGridRecyclerViewAdapter.Section[sections.size()];
+        SectionedGridRecyclerViewAdapter mSectionedAdapter = new
+                SectionedGridRecyclerViewAdapter(this,R.layout.section,R.id.section_text,mRecyclerView,mAdapter);
+        mSectionedAdapter.setSections(sections.toArray(dummy));
+
+        //Apply this adapter to the RecyclerView
+        mRecyclerView.setAdapter(mSectionedAdapter);
     }
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,5 +113,8 @@ public class MainActivity extends AppCompatActivity {
         badgeSocial.setBackgroundColor(getResources().getColor(R.color.green_500));
 
         ((TextView) m.findItem(R.id.nav_spam).getActionView().findViewById(R.id.text)).setText("13");
+    }
+    private void initComponent(){
+
     }
 }
