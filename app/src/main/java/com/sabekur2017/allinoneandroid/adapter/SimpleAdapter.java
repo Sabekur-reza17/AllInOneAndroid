@@ -20,13 +20,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     private final List<Integer> mItems;
     private int mCurrentItemId = 0;
 
-    public static class SimpleViewHolder extends RecyclerView.ViewHolder {
+    public static class SimpleViewHolder extends RecyclerView.ViewHolder{
         public final TextView title;
 
         public SimpleViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
         }
+
+
     }
 
     public SimpleAdapter(Context context) {
@@ -37,6 +39,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
         }
     }
 
+
+
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(mContext).inflate(R.layout.item, parent, false);
         return new SimpleViewHolder(view);
@@ -45,6 +49,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         holder.title.setText(mItems.get(position).toString());
+
     }
 
     public void addItem(int position) {

@@ -13,21 +13,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.sabekur2017.allinoneandroid.adapter.FragmentAdapter;
 import com.sabekur2017.allinoneandroid.adapter.SectionedGridRecyclerViewAdapter;
 import com.sabekur2017.allinoneandroid.adapter.SimpleAdapter;
+import com.sabekur2017.allinoneandroid.fragments.HomeFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private Toolbar toolbar;
     private RecyclerView mRecyclerView;
     private SimpleAdapter mAdapter;
+    private SectionedGridRecyclerViewAdapter sectionedGridRecyclerViewAdapter;
+    //view pager a
+    ViewPager viewPager;
+    TabLayout tabLayout;
+    ArrayList<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +43,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initToolbar();
         initNavigationMenu();
-        //Your RecyclerView
+        viewPager=findViewById(R.id.pager);
+        tabLayout=findViewById(R.id.tabLayout);
+        fragments =new ArrayList<>();
+        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragment());
+        FragmentAdapter fragmentAdapter=new FragmentAdapter(getSupportFragmentManager(), getApplicationContext(), fragments);
+        viewPager.setAdapter(fragmentAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_black_24dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_home_black_24dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_home_black_24dp);
+
+       /* //Your RecyclerView
         mRecyclerView = (RecyclerView)findViewById(R.id.list);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,4));
 
         //Your RecyclerView.Adapter
         mAdapter = new SimpleAdapter(this);
+        // onclick in grid item
+
+
+
 
         //This is the code to provide a sectioned grid
         List<SectionedGridRecyclerViewAdapter.Section> sections =
                 new ArrayList<SectionedGridRecyclerViewAdapter.Section>();
+        List<SectionedGridRecyclerViewAdapter.Section> sectionList=new ArrayList<>();
+        for(SectionedGridRecyclerViewAdapter.Section  section :sectionList){
+            sectionList.add(new SectionedGridRecyclerViewAdapter.Section(section.getTitle()));
+        }
 
         //Sections
         sections.add(new SectionedGridRecyclerViewAdapter.Section(0,"Section 1"));
@@ -61,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
         mSectionedAdapter.setSections(sections.toArray(dummy));
 
         //Apply this adapter to the RecyclerView
-        mRecyclerView.setAdapter(mSectionedAdapter);
+        mRecyclerView.setAdapter(mSectionedAdapter);*/
+
     }
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -88,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(final MenuItem item) {
-                Toast.makeText(getApplicationContext(), item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
+
+               Toast.makeText(getApplicationContext(), item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
                 actionBar.setTitle(item.getTitle());
                 drawer.closeDrawers();
                 return true;

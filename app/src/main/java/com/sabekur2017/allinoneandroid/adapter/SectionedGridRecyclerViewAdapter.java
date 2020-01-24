@@ -6,16 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sabekur2017.allinoneandroid.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 
 public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context mContext;
@@ -76,13 +75,21 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
 
-    public static class SectionViewHolder extends RecyclerView.ViewHolder {
+
+    public static class SectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView title;
 
         public SectionViewHolder(View view,int mTextResourceid) {
             super(view);
             title = (TextView) view.findViewById(mTextResourceid);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            TextView textView=v.findViewById(R.id.avatar);
+            Toast.makeText(v.getContext(),"click "+textView,Toast.LENGTH_LONG).show();
         }
     }
 
@@ -121,6 +128,10 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
         public Section(int firstPosition, CharSequence title) {
             this.firstPosition = firstPosition;
+            this.title = title;
+        }
+
+        public Section(CharSequence title) {
             this.title = title;
         }
 
